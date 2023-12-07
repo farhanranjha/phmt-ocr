@@ -76,7 +76,7 @@ def save_non_empty_cells(table_image, output_folder="/Users/apple/Desktop/medify
             y2 -= boundary_margin
 
             cell_image_with_border = table_image.crop((x1, y1, x2, y2))
-            border_size = 2
+            border_size = 10
             cell_image = cell_image_with_border.crop((border_size, border_size, cell_image_with_border.width - border_size, cell_image_with_border.height - border_size))
 
             cell_array = np.array(cell_image)

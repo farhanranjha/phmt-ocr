@@ -86,7 +86,7 @@ def save_non_empty_cells(table_image, output_folder="/Users/apple/Desktop/medify
                 increase_image_size(f"{output_folder}cell_{i}_{j}.png",f"{output_folder}cell_{i}_{j}.png", scale_factor=2)
                 table_data.at[i, j] = f"Cell {i}_{j}"
 
-def process_prescribed_medicines(model, images_folder):
+def process_prescribed_medicines(model, images_folder, textType):
     prescribed_medicines = []
     current_medicine = None
 
@@ -100,7 +100,7 @@ def process_prescribed_medicines(model, images_folder):
             if image is None or image.size == 0:
                 print(f"Error: Could not open or read the image at {image_path}")
             else:
-                if filename.endswith('0.png'):
+                if filename.endswith('0.png') and textType == 'handwritten':
                     prediction_text = model.predict(image) if model.predict(image) else "n/a"
                 else:
                     prediction_text = reader.readtext(image)[0][1] if reader.readtext(image) else "n/a"
@@ -129,7 +129,7 @@ def process_prescribed_medicines(model, images_folder):
 
     return prescribed_medicines
 
-def perform_ocr_on_prescription(image):
+def perform_ocr_on_prescription(image, textType):
     nparr = np.frombuffer(image.read(), np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -157,7 +157,7 @@ def perform_ocr_on_prescription(image):
     save_non_empty_cells(table_image)
 
     images_folder = "/Users/apple/Desktop/medifyme/phmt-ocr/Models/04_sentence_recognition/cells/"
-    result = process_prescribed_medicines(model, images_folder)
+    result = process_prescribed_medicines(model, images_folder, textType)
     shutil.rmtree(images_folder)
     
     # for idx, medicine in enumerate(result, 0):

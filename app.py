@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from Code.inferenceModel import perform_ocr_on_prescription
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/perform_ocr', methods=['POST'])
 def perform_ocr_endpoint():

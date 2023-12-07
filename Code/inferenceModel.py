@@ -130,8 +130,8 @@ def process_prescribed_medicines(model, images_folder):
     return prescribed_medicines
 
 def perform_ocr_on_prescription(image):
-    # nparr = np.frombuffer(image.read(), np.uint8)
-    # image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    nparr = np.frombuffer(image.read(), np.uint8)
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray, threshold1=30, threshold2=100)
     contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -172,6 +172,6 @@ def perform_ocr_on_prescription(image):
     return result_dict_list
 
 
-image = cv2.imread('/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/prescription/prescrip.jpg')
-x = perform_ocr_on_prescription(image)
-print(x)
+# image = cv2.imread('/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/prescription/prescrip.jpg')
+# x = perform_ocr_on_prescription(image)
+# print(x)

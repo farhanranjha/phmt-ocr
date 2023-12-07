@@ -12,7 +12,7 @@ def perform_ocr_endpoint():
 
     result = perform_ocr_on_prescription(image)
 
-    return jsonify({'text': result})
+    return jsonify({'data': result})
 
 if __name__ == '__main__':
     app.run(debug=True)

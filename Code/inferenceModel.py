@@ -52,7 +52,7 @@ def increase_image_size(input_path, output_path, scale_factor=2):
     except Exception as e:
         print(f"Error resizing image: {str(e)}")
 
-def save_non_empty_cells(table_image, output_folder="/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/cells/", boundary_margin=2):
+def save_non_empty_cells(table_image, output_folder="/Users/apple/Desktop/medifyme/phmt-ocr/Models/04_sentence_recognition/cells/", boundary_margin=2):
     os.makedirs(output_folder, exist_ok=True)
 
     num_rows = 6
@@ -148,15 +148,15 @@ def perform_ocr_on_prescription(image):
     x, y, w, h = cv2.boundingRect(mask)
     table_roi = image[y:y + h, x:x + w]
 
-    cv2.imwrite('/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/prescription/table_roi.png', table_roi)
-    configs = BaseModelConfigs.load("/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/202301131202/configs.yaml")
+    cv2.imwrite('/Users/apple/Desktop/medifyme/phmt-ocr/Models/04_sentence_recognition/prescription/table_roi.png', table_roi)
+    configs = BaseModelConfigs.load("/Users/apple/Desktop/medifyme/phmt-ocr/Models/04_sentence_recognition/202301131202/configs.yaml")
     model = ImageToWordModel(model_path=configs.model_path, char_list=configs.vocab)
     
-    table_image_path = "/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/prescription/table_roi.png"
+    table_image_path = "/Users/apple/Desktop/medifyme/phmt-ocr/Models/04_sentence_recognition/prescription/table_roi.png"
     table_image = Image.open(table_image_path)
     save_non_empty_cells(table_image)
 
-    images_folder = "/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/cells/"
+    images_folder = "/Users/apple/Desktop/medifyme/phmt-ocr/Models/04_sentence_recognition/cells/"
     result = process_prescribed_medicines(model, images_folder)
     shutil.rmtree(images_folder)
     
@@ -170,8 +170,3 @@ def perform_ocr_on_prescription(image):
     
     result_dict_list = [medicine.to_dict() for medicine in result]    
     return result_dict_list
-
-
-# image = cv2.imread('/Users/apple/Desktop/INFER 2/Models/04_sentence_recognition/prescription/prescrip.jpg')
-# x = perform_ocr_on_prescription(image)
-# print(x)

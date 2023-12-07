@@ -135,12 +135,14 @@ def process_prescribed_medicines(model, images_folder):
             else:
                 if filename.endswith('0.png'):
                 # Use model for prediction
-                    prediction_text = model.predict(image)
+                    prediction_text = model.predict(image) if model.predict(image) else "n/a"
                 else:
                 # Use easyocr for prediction
-                    prediction_text = reader.readtext(image)
+                    # prediction_text = reader.readtext(image)
+                    prediction_text = reader.readtext(image)[0][1] if reader.readtext(image) else "n/a"
+
                 # Make a prediction
-                prediction_text = model.predict(image)
+                # prediction_text = model.predict(image)
                 # If predicted text is not empty, update or create a new medicine object
                 if prediction_text:
                     if current_medicine is None:

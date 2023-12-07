@@ -11,6 +11,9 @@ from mltu.transformers import ImageResizer
 import typing
 import shutil
 import easyocr
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 class PrescribedMedicine:
     def __init__(self, medicine_name=None, dosage=None, quantity=None, frequency=None):
@@ -115,7 +118,7 @@ def process_prescribed_medicines(model, images_folder):
 
     # Get a list of image filenames and sort them based on the cell number and index
     image_filenames = sorted(os.listdir(images_folder), key=lambda x: (int(x.split('_')[1]), int(x.split('_')[2].split('.')[0])))
-    # reader = easyocr.Reader(['en'])
+    reader = easyocr.Reader(['en'])
     # Iterate over sorted images
     for filename in image_filenames:
         # Check if the file is an image
@@ -133,9 +136,9 @@ def process_prescribed_medicines(model, images_folder):
                 if filename.endswith('0.png'):
                 # Use model for prediction
                     prediction_text = model.predict(image)
-                # else:
-                # # Use easyocr for prediction
-                #     prediction_text = reader.readtext(image)
+                else:
+                # Use easyocr for prediction
+                    prediction_text = reader.readtext(image)
                 # Make a prediction
                 prediction_text = model.predict(image)
                 # If predicted text is not empty, update or create a new medicine object

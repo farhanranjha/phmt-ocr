@@ -16,14 +16,14 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 
 class PrescribedMedicine:
-    def __init__(self, medicine_name=None, dosage=None, quantity=None, frequency=None):
-        self.medicine_name = medicine_name
+    def __init__(self, medicineName=None, dosage=None, quantity=None, frequency=None):
+        self.medicineName = medicineName
         self.dosage = dosage
         self.quantity = quantity
         self.frequency = frequency
     def to_dict(self):
         return {
-            'medicine_name': self.medicine_name,
+            'medicineName': self.medicineName,
             'dosage': self.dosage,
             'quantity': self.quantity,
             'frequency': self.frequency
@@ -109,8 +109,8 @@ def process_prescribed_medicines(model, images_folder, textType):
                     if current_medicine is None:
                         current_medicine = PrescribedMedicine()
 
-                    if current_medicine.medicine_name is None:
-                        current_medicine.medicine_name = prediction_text
+                    if current_medicine.medicineName is None:
+                        current_medicine.medicineName = prediction_text
                     elif current_medicine.dosage is None:
                         current_medicine.dosage = prediction_text
                     elif current_medicine.quantity is None:
@@ -162,7 +162,7 @@ def perform_ocr_on_prescription(image, textType):
     
     # for idx, medicine in enumerate(result, 0):
     #     print(f"Prescribed Medicine {idx}:")
-    #     print(f"Medicine Name: {medicine.medicine_name}")
+    #     print(f"Medicine Name: {medicine.medicineName}")
     #     print(f"Dosage: {medicine.dosage}")
     #     print(f"Quantity: {medicine.quantity}")
     #     print(f"Frequency: {medicine.frequency}")

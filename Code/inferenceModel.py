@@ -103,7 +103,7 @@ def process_prescribed_medicines(model, images_folder, textType):
                 if filename.endswith('0.png') and textType == 'handwritten':
                     prediction_text = model.predict(image) if model.predict(image) else "n/a"
                 else:
-                    prediction_text = reader.readtext(image)[0][1] if reader.readtext(image) else "n/a"
+                    prediction_text = reader.readtext(image)[0][1] if reader.readtext(image) else "0"
 
                 if prediction_text:
                     if current_medicine is None:
